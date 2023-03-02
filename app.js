@@ -1,3 +1,6 @@
+// Globals
+let toast = null;
+
 window.onload = () => {
   main();
 };
@@ -16,6 +19,11 @@ function main() {
 
   copyBtn.addEventListener('click', function () {
     navigator.clipboard.writeText(output.value);
+
+    if (toast !== null) {
+      clearToast();
+    }
+    generateToastMsg(`${output.value} copied.`);
   });
 }
 
@@ -25,4 +33,25 @@ function generateHexColor() {
   const blue = Math.floor(Math.random() * 255);
 
   return `#${red.toString(16)}${green.toString(16)}${blue.toString(16)}`;
+}
+
+function generateToastMsg(msg) {
+  toast = document.createElement('div');
+  toast.innerText = msg;
+  toast.className = 'toast-message toast-message-slide-in';
+
+  toast.addEventListener('click', function () {
+    toast.classList.remove('toast-message-slide-in');
+    toast.classList.add('toast-message-slide-out');
+    toast.addEventListener('animationend', function () {
+      clearToast();
+    });
+  });
+
+  document.body.appendChild(toast);
+}
+
+function clearToast() {
+  toast.remove();
+  toast = null;
 }
