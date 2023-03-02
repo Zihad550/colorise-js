@@ -4,4 +4,5 @@
 
 ## Features
 
-- Change the background color by generating random rgb color by clicking a button.
+- Change the background color by generating random hex color by clicking a button.
+- Can see the color code on the screen.
