@@ -7,13 +7,19 @@
 /**********
  * globals
  ************/
-let toast = null;
+let toastContainer = null;
+const defaultColor = {
+  red: 221,
+  green: 222,
+  blue: 238,
+};
 
 /**
  * @description onload handler
  */
 window.onload = () => {
   main();
+  updateColorCodeToDom(defaultColor);
 };
 
 /**
@@ -29,7 +35,6 @@ function main() {
   const colorSliderGreen = document.getElementById('color-slider-green');
   const colorSliderBlue = document.getElementById('color-slider-blue');
   const copyToClipBoardBtn = document.getElementById('copy-to-clipboard');
-  const colorModeRadios = document.getElementsByName('color-mode');
 
   // event listeners
   generateRandomColorBtn.addEventListener(
@@ -52,27 +57,7 @@ function main() {
     handleColorSliders(colorSliderRed, colorSliderGreen, colorSliderBlue)
   );
 
-  copyToClipBoardBtn.addEventListener('click', function () {
-    const mode = getCheckedValueFromRadios(colorModeRadios);
-    if (mode === null) throw new Error('Invalid Radio Input');
-
-    if (mode === 'hex') {
-      const hexColor = hexInp.value;
-      navigator.clipboard.writeText(`#${hexColor}`);
-    } else {
-      const rgbColor = document.getElementById('input-rgb').value;
-      navigator.clipboard.writeText(rgbColor);
-    }
-  });
-
-  // copyBtn.addEventListener('click', function () {
-  //   navigator.clipboard.writeText(`#${output.value}`);
-
-  //   if (toast !== null) clearToast();
-
-  //   if (isValidHex(output.value)) generateToastMsg(`#${output.value} copied.`);
-  //   else alert('Invalid color code');
-  // });
+  copyToClipBoardBtn.addEventListener('click', handleCopyToClipboardBtn);
 }
 
 /*************
@@ -104,6 +89,29 @@ function handleColorSliders(colorSliderRed, colorSliderGreen, colorSliderBlue) {
     updateColorCodeToDom(color);
   };
 }
+
+function handleCopyToClipboardBtn() {
+  const colorModeRadios = document.getElementsByName('color-mode');
+
+  const mode = getCheckedValueFromRadios(colorModeRadios);
+  if (mode === null) throw new Error('Invalid Radio Input');
+
+  if (toastContainer !== null) clearToastMsg();
+
+  if (mode === 'hex') {
+    const hexColor = document.getElementById('input-hex').value;
+    if (hexColor && isValidHex(hexColor)) {
+      navigator.clipboard.writeText(`#${hexColor}`);
+      generateToastMsg(`#${hexColor} Copied`);
+    } else alert('Invalid Hex code');
+  } else {
+    const rgbColor = document.getElementById('input-rgb').value;
+    if (rgbColor) {
+      navigator.clipboard.writeText(rgbColor);
+      generateToastMsg(rgbColor);
+    } else alert('Invalid RGB color');
+  }
+}
 /***********
  * DOM functions
  **************/
@@ -113,19 +121,19 @@ function handleColorSliders(colorSliderRed, colorSliderGreen, colorSliderBlue) {
  * @param {string} msg
  */
 function generateToastMsg(msg) {
-  toast = document.createElement('div');
-  toast.innerText = msg;
-  toast.className = 'toast-message toast-message-slide-in';
+  toastContainer = document.createElement('div');
+  toastContainer.innerText = msg;
+  toastContainer.className = 'toast-message toast-message-slide-in';
 
-  toast.addEventListener('click', function () {
-    toast.classList.remove('toast-message-slide-in');
-    toast.classList.add('toast-message-slide-out');
-    toast.addEventListener('animationend', function () {
-      clearToast();
+  toastContainer.addEventListener('click', function () {
+    toastContainer.classList.remove('toast-message-slide-in');
+    toastContainer.classList.add('toast-message-slide-out');
+    toastContainer.addEventListener('animationend', function () {
+      clearToastMsg();
     });
   });
 
-  document.body.appendChild(toast);
+  document.body.appendChild(toastContainer);
 }
 
 /**
@@ -227,9 +235,9 @@ function hexToDecimalColors(hex) {
   return { red, green, blue };
 }
 
-function clearToast() {
-  toast.remove();
-  toast = null;
+function clearToastMsg() {
+  toastContainer.remove();
+  toastContainer = null;
 }
 
 /**
