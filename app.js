@@ -1,10 +1,24 @@
-// Globals
+/**
+ * Date: 04-03-2023
+ * Author: Zihad550
+ * Description: Color picker application with huge DOM functionalities.
+ */
+
+/**********
+ * globals
+ ************/
 let toast = null;
 
+/**
+ * @description onload handler
+ */
 window.onload = () => {
   main();
 };
 
+/**
+ * @description main or boot function, this function will take care of getting all the DOM references
+ */
 function main() {
   const root = document.getElementById('root');
   const changeBtn = document.getElementById('change-btn');
@@ -52,47 +66,13 @@ function main() {
   });
 }
 
-function generateColorDecimal() {
-  const red = Math.floor(Math.random() * 255);
-  const green = Math.floor(Math.random() * 255);
-  const blue = Math.floor(Math.random() * 255);
-  return { red, green, blue };
-}
+/*************
+ *  Event handlers
+ ************/
 
-/**
- *
- * @param {Object} color
- * @param {number} color.red - Red color rgb code 0-255
- * @param {number} color.green - Green color rgb code 0-255
- * @param {number} color.blue - Blue color rgb code 0-255
- * @returns string (hex color)
- */
-function generateHexColor({ red, green, blue }) {
-  /**
-   * @param {number} value
-   * @returns string
-   */
-  const getTwoCode = (value) => {
-    const hex = value.toString(16);
-    return hex.length === 1 ? `0${hex}` : hex;
-  };
-
-  return `#${getTwoCode(red)}${getTwoCode(green)}${getTwoCode(
-    blue
-  )}`.toUpperCase();
-}
-
-/**
- *
- * @param {Object} color
- * @param {number} color.red - Red color rgb code 0-255
- * @param {number} color.green - Green color rgb code 0-255
- * @param {number} color.blue - Blue color rgb code 0-255
- * @returns string (rgb format)
- */
-function generateRGBColor({ red, green, blue }) {
-  return `rgb(${red}, ${green}, ${blue})`;
-}
+/***********
+ * DOM functions
+ **************/
 
 /**
  * @param {string} msg
@@ -113,6 +93,58 @@ function generateToastMsg(msg) {
   document.body.appendChild(toast);
 }
 
+function updateColorCodeToDom(color) {}
+
+/************
+ * Utils
+ *************/
+
+/**
+ * @description Generate and return an object of three color decimal values
+ * @returns {{red: number, green: number, blue: number}}
+ */
+function generateColorDecimal() {
+  const red = Math.floor(Math.random() * 255);
+  const green = Math.floor(Math.random() * 255);
+  const blue = Math.floor(Math.random() * 255);
+  return { red, green, blue };
+}
+
+/**
+ * @description Take a color object of three decimal alues and return a hexadecimal color code
+ * @param {Object} color
+ * @param {number} color.red - Red color rgb code 0-255
+ * @param {number} color.green - Green color rgb code 0-255
+ * @param {number} color.blue - Blue color rgb code 0-255
+ * @returns {string} (hex color)
+ */
+function generateHexColor({ red, green, blue }) {
+  /**
+   * @param {number} value
+   * @returns string
+   */
+  const getTwoCode = (value) => {
+    const hex = value.toString(16);
+    return hex.length === 1 ? `0${hex}` : hex;
+  };
+
+  return `#${getTwoCode(red)}${getTwoCode(green)}${getTwoCode(
+    blue
+  )}`.toUpperCase();
+}
+
+/**
+ * @description Take a color object of three decimal alues and return a RGB color code
+ * @param {Object} color
+ * @param {number} color.red - Red color rgb code 0-255
+ * @param {number} color.green - Green color rgb code 0-255
+ * @param {number} color.blue - Blue color rgb code 0-255
+ * @returns string (rgb format)
+ */
+function generateRGBColor({ red, green, blue }) {
+  return `rgb(${red}, ${green}, ${blue})`;
+}
+
 /**
  *
  * @param {string} hex (length = 6)
@@ -125,16 +157,15 @@ function hexToRgb(hex) {
   return generateRGBColor({ red, green, blue });
 }
 
-/************
- * Utils
- *************/
 function clearToast() {
   toast.remove();
   toast = null;
 }
 
 /**
+ * @description Validate hex color code
  * @param {string} color
+ * @return {boolean}
  */
 function isValidHex(color) {
   if (color.length !== 6) return false;
