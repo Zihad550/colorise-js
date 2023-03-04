@@ -29,11 +29,15 @@ function main() {
   const generateRandomColorBtn = document.getElementById(
     'generate-random-color'
   );
+  const hexInp = document.getElementById('input-hex');
+  const colorModeRgbInp = document.getElementById('input-rgb');
 
   generateRandomColorBtn.addEventListener(
     'click',
     handleGenerateRandomColorBtn
   );
+
+  hexInp.addEventListener('keyup', handleHexInp);
 
   // copyBtn.addEventListener('click', function () {
   //   navigator.clipboard.writeText(`#${output.value}`);
@@ -52,17 +56,6 @@ function main() {
   //   if (isValidHex(output.value)) generateToastMsg(`${output2.value} copied.`);
   //   else alert('Invalid color code');
   // });
-
-  // output.addEventListener('keyup', function (e) {
-  //   const color = e.target.value;
-  //   if (color) {
-  //     output.value = color.toUpperCase();
-  //     if (isValidHex(color)) {
-  //       root.style.backgroundColor = `#${color}`;
-  //       output2.value = hexToDecimalColors(color);
-  //     }
-  //   }
-  // });
 }
 
 /*************
@@ -71,6 +64,17 @@ function main() {
 function handleGenerateRandomColorBtn() {
   const color = generateColorDecimal();
   updateColorCodeToDom(color);
+}
+
+function handleHexInp(e) {
+  const hexColor = e.target.value;
+  if (hexColor) {
+    this.value = hexColor.toUpperCase();
+    if (isValidHex(hexColor)) {
+      const colorDecimal = hexToDecimalColors(hexColor);
+      updateColorCodeToDom(colorDecimal);
+    }
+  }
 }
 /***********
  * DOM functions
@@ -104,8 +108,8 @@ function updateColorCodeToDom(color) {
   const rgbColor = generateRGBColor(color);
 
   document.getElementById('color-display').style.backgroundColor = hexColor;
-  document.getElementById('color-mode-hex').value = hexColor;
-  document.getElementById('color-mode-rgb').value = rgbColor;
+  document.getElementById('input-hex').value = hexColor.substring(1);
+  document.getElementById('input-rgb').value = rgbColor;
   document.getElementById('color-slider-red').value = color.red;
   document.getElementById('color-slider-red-label').innerText = color.red;
 
