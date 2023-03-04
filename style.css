@@ -24,20 +24,32 @@ body {
   gap: 1rem;
 }
 
+.label-group {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.label-group label {
+  color: #fff;
+  text-shadow: 1px 1px 0 #333, -1px -1px 0 #333, 1px -1px 0 #333,
+    -1px 1px 0 #333, 2px 2px 5px rgba(0, 0, 0, 0.65);
+}
+
 .input-group {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   position: relative;
+  /* overflow: hidden; */
 }
 
 .input-icon {
   position: absolute;
   padding: 0.45rem;
   background-color: #ddd;
+  color: #424242;
   border-top-left-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;
-  color: #424242;
 }
 
 input[type='text'],

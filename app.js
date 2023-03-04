@@ -9,12 +9,16 @@ function main() {
   const root = document.getElementById('root');
   const changeBtn = document.getElementById('change-btn');
   const output = document.getElementById('output');
+  const output2 = document.getElementById('output2');
   const copyBtn = document.getElementById('copy-btn');
 
   changeBtn.addEventListener('click', function () {
-    const bgColor = generateHexColor();
-    root.style.backgroundColor = bgColor;
-    output.value = bgColor.substring(1).toUpperCase();
+    const color = generateColorDecimal();
+    const bgColorHEX = generateHexColor(color);
+    const bgColorRGB = generateRGBColor(color);
+    root.style.backgroundColor = bgColorHEX;
+    output.value = bgColorHEX.substring(1);
+    output2.value = bgColorRGB;
   });
 
   copyBtn.addEventListener('click', function () {
@@ -37,14 +41,45 @@ function main() {
   });
 }
 
-function generateHexColor() {
+function generateColorDecimal() {
   const red = Math.floor(Math.random() * 255);
   const green = Math.floor(Math.random() * 255);
   const blue = Math.floor(Math.random() * 255);
-
-  return `#${red.toString(16)}${green.toString(16)}${blue.toString(16)}`;
+  return { red, green, blue };
 }
 
+/**
+ *
+ * @param {{red: number, green: number, blue: number}} color
+ * @returns string (hex color)
+ */
+function generateHexColor({ red, green, blue }) {
+  /**
+   * @param {number} value
+   * @returns string
+   */
+  const getTwoCode = (value) => {
+    const hex = value.toString(16);
+    return hex.length === 1 ? `0${hex}` : hex;
+  };
+
+  return `#${getTwoCode(red)}${getTwoCode(green)}${getTwoCode(
+    blue
+  )}`.toUpperCase();
+}
+
+/**
+ *
+ * @param {{red: string, green: string, blue: string}} color
+ * @returns string (rgb format)
+ */
+function generateRGBColor({ red, green, blue }) {
+  return `rgb(${red}, ${green}, ${blue})`;
+}
+
+/**
+ * @param {string} msg
+ */
 function generateToastMsg(msg) {
   toast = document.createElement('div');
   toast.innerText = msg;
@@ -67,11 +102,9 @@ function clearToast() {
 }
 
 /**
- *
  * @param {string} color
  */
 function isValidHex(color) {
   if (color.length !== 6) return false;
   return /^[0-9A-Fa-f]{6}$/i.test(color);
 }
-6;
