@@ -28,6 +28,8 @@ function main() {
   const colorSliderRed = document.getElementById('color-slider-red');
   const colorSliderGreen = document.getElementById('color-slider-green');
   const colorSliderBlue = document.getElementById('color-slider-blue');
+  const copyToClipBoardBtn = document.getElementById('copy-to-clipboard');
+  const colorModeRadios = document.getElementsByName('color-mode');
 
   // event listeners
   generateRandomColorBtn.addEventListener(
@@ -50,21 +52,25 @@ function main() {
     handleColorSliders(colorSliderRed, colorSliderGreen, colorSliderBlue)
   );
 
+  copyToClipBoardBtn.addEventListener('click', function () {
+    const mode = getCheckedValueFromRadios(colorModeRadios);
+    if (mode === null) throw new Error('Invalid Radio Input');
+
+    if (mode === 'hex') {
+      const hexColor = hexInp.value;
+      navigator.clipboard.writeText(`#${hexColor}`);
+    } else {
+      const rgbColor = document.getElementById('input-rgb').value;
+      navigator.clipboard.writeText(rgbColor);
+    }
+  });
+
   // copyBtn.addEventListener('click', function () {
   //   navigator.clipboard.writeText(`#${output.value}`);
 
   //   if (toast !== null) clearToast();
 
   //   if (isValidHex(output.value)) generateToastMsg(`#${output.value} copied.`);
-  //   else alert('Invalid color code');
-  // });
-
-  // copyBtn2.addEventListener('click', function () {
-  //   navigator.clipboard.writeText(`${output2.value}`);
-
-  //   if (toast !== null) clearToast();
-
-  //   if (isValidHex(output.value)) generateToastMsg(`${output2.value} copied.`);
   //   else alert('Invalid color code');
   // });
 }
@@ -103,6 +109,7 @@ function handleColorSliders(colorSliderRed, colorSliderGreen, colorSliderBlue) {
  **************/
 
 /**
+ * @description Generate a dynamic DOM element to show a toast message
  * @param {string} msg
  */
 function generateToastMsg(msg) {
@@ -119,6 +126,22 @@ function generateToastMsg(msg) {
   });
 
   document.body.appendChild(toast);
+}
+
+/**
+ * @description Find the checked elements from a list of radio buttons
+ * @param {Array} nodes
+ * @returns {string | null}
+ */
+function getCheckedValueFromRadios(nodes) {
+  let checkedValue = null;
+  for (let i = 0; i < nodes.length; i++) {
+    if (nodes[i].checked) {
+      checkedValue = nodes[i].value;
+      break;
+    }
+  }
+  return checkedValue;
 }
 
 /**
