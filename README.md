@@ -13,8 +13,8 @@
 - Can see and copy a rgb version of the color.
 - When user updates the hex input field also an equivalent RGB code is generated.
 
-## New Features to implement
+## Upcoming features
 
-- delete toast msg after a period of time
-- show toast message if the input hex is invalid
-- use toast instead of browser default alert
+- Toasts automatically removed after 5 seconds.
+- Show toast message if the input hex value is invalid.
+- Updated notification system. (Browser alert removed)
