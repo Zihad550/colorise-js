@@ -20,24 +20,35 @@ window.onload = () => {
  * @description main or boot function, this function will take care of getting all the DOM references
  */
 function main() {
-  // const root = document.getElementById('root');
-  // const changeBtn = document.getElementById('change-btn');
-  // const output = document.getElementById('output');
-  // const output2 = document.getElementById('output2');
-  // const copyBtn = document.getElementById('copy-btn');
-  // const copyBtn2 = document.getElementById('copy-btn2');
+  // dom references
   const generateRandomColorBtn = document.getElementById(
     'generate-random-color'
   );
   const hexInp = document.getElementById('input-hex');
-  const colorModeRgbInp = document.getElementById('input-rgb');
+  const colorSliderRed = document.getElementById('color-slider-red');
+  const colorSliderGreen = document.getElementById('color-slider-green');
+  const colorSliderBlue = document.getElementById('color-slider-blue');
 
+  // event listeners
   generateRandomColorBtn.addEventListener(
     'click',
     handleGenerateRandomColorBtn
   );
 
   hexInp.addEventListener('keyup', handleHexInp);
+
+  colorSliderRed.addEventListener(
+    'change',
+    handleColorSliders(colorSliderRed, colorSliderGreen, colorSliderBlue)
+  );
+  colorSliderGreen.addEventListener(
+    'change',
+    handleColorSliders(colorSliderRed, colorSliderGreen, colorSliderBlue)
+  );
+  colorSliderBlue.addEventListener(
+    'change',
+    handleColorSliders(colorSliderRed, colorSliderGreen, colorSliderBlue)
+  );
 
   // copyBtn.addEventListener('click', function () {
   //   navigator.clipboard.writeText(`#${output.value}`);
@@ -75,6 +86,17 @@ function handleHexInp(e) {
       updateColorCodeToDom(colorDecimal);
     }
   }
+}
+
+function handleColorSliders(colorSliderRed, colorSliderGreen, colorSliderBlue) {
+  return function () {
+    const color = {
+      red: parseInt(colorSliderRed.value),
+      green: parseInt(colorSliderGreen.value),
+      blue: parseInt(colorSliderBlue.value),
+    };
+    updateColorCodeToDom(color);
+  };
 }
 /***********
  * DOM functions
