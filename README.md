@@ -8,3 +8,4 @@
 - Can see the color code on the screen.
 - Can copy color to system clipboard.
 - Show a toast message when the user copies a color.
+- Change background color for valid hex color input.

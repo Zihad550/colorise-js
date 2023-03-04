@@ -20,10 +20,17 @@ function main() {
   copyBtn.addEventListener('click', function () {
     navigator.clipboard.writeText(output.value);
 
-    if (toast !== null) {
-      clearToast();
+    if (toast !== null) clearToast();
+
+    if (isValidHex(output.value)) generateToastMsg(`${output.value} copied.`);
+    else alert('Invalid color code');
+  });
+
+  output.addEventListener('keyup', function (e) {
+    const color = e.target.value;
+    if (color && isValidHex(color)) {
+      root.style.backgroundColor = color;
     }
-    generateToastMsg(`${output.value} copied.`);
   });
 }
 
@@ -54,4 +61,15 @@ function generateToastMsg(msg) {
 function clearToast() {
   toast.remove();
   toast = null;
+}
+
+/**
+ *
+ * @param {string} color
+ */
+function isValidHex(color) {
+  if (color.length !== 7) return false;
+  if (color[0] !== '#') return false;
+  color = color.substring(1);
+  return /^[0-9A-Fa-f]{6}$/i.test(color);
 }
