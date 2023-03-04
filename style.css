@@ -24,6 +24,22 @@ body {
   gap: 1rem;
 }
 
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  padding: 0.45rem;
+  background-color: #ddd;
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+  color: #424242;
+}
+
 input[type='text'],
 input[type='text']:disabled,
 .copy-btn {
@@ -33,6 +49,15 @@ input[type='text']:disabled,
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
   box-shadow: 0px 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.output {
+  margin-left: 1rem;
+}
+
+.output:focus {
+  outline: none;
+  border: none;
 }
 
 .change-btn {
